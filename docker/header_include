@@ -1,0 +1,16 @@
+<a href="/source/"><span id="MastheadLogo"></span></a>
+<style>
+#MastheadLogo {
+    width: 210px;
+    height:50px;
+    float: left;
+    background-image: url(/source/default/img/logo.png);
+    background-repeat: no-repeat;
+    background-position: 0;
+    margin: 0 0 0.5ex 0;
+}
+
+html.xref #content, html.diff #content, html.more #content, html.history #content {
+    margin-top: 110px;
+}
+</style>

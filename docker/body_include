@@ -1,0 +1,61 @@
+
+<div class="main_table-header" width="90%">
+Lenovo SSE - <span style="color:red">source</span> application - SSE applications list
+</div>
+<table width="100%" class="main_table">
+<thead>
+<tr>
+<th width="10%"></th>
+<th width="30%">name</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="main_td">
+<td>1</td>
+<td><a href="/source">source</a></td>
+<td></td>
+</tr>
+<tr class="alter main_td">
+<td>2</td>
+<td><a href="/aosp">aosp</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<style>
+/* start of main page table css */
+.main_table{
+table-layout:fixed;
+empty-cells:show;
+border-collapse: collapse;
+margin:0 auto;
+}
+.main_td{
+height:30px;
+}
+
+.main_table{
+border:1px solid #cad9ea;
+}
+.main_table th {
+background-repeat:repeat-x;
+height:30px;
+}
+.main_table td,.main_table th{
+border:1px solid #cad9ea;
+padding:0 1em 0;
+}
+.main_table tr.alter{
+background-color:#f5fafe;
+}
+.main_table-header {
+    background-color: #307ecc;
+    color: #FFF;
+    font-size: 14px;
+    line-height: 38px;
+    padding-left: 12px;
+    margin-bottom: 1px;
+}
+</style>

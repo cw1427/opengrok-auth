@@ -1,0 +1,22 @@
+body {
+    margin-bottom:50px;
+}
+
+
+.footer {
+    margin-bottom: 0px;
+    bottom:0;
+}
+
+.endpoint{
+     font-weight:bold
+}
+
+.fti {
+    display: inline-block;
+    width: 208px;
+    height: 45px;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: -171px 0;
+}

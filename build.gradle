@@ -1,0 +1,70 @@
+// bsm build image and deliver
+//apply plugin: 'application'
+apply plugin: 'docker'
+//Setup gradle-appengine plugin
+buildscript {
+
+    repositories {
+        maven {
+            url "https://your.company/artifactory/gradle-dev/"
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
+    }
+
+}
+
+repositories {
+    maven {
+        url "https://your.company/artifactory/gradle-dev/"
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
+   jcenter()
+   mavenCentral()
+}
+
+dependencies {
+}
+
+group = "opengrok-auth"
+
+docker{
+    dockerBinary='docker'
+}
+
+task opengrokDocker(type:Docker){
+    dockerfile='Dockerfile'
+    applicationName = 'opengrok-auth_dev'
+    tagVersion = getTAPVersion()
+    if (System.properties['registry'] != null) {
+        registry = System.properties['registry']
+    }else{
+        registry = 'your.company.registry'
+    }
+    tag = "${registry}/${project.group}/${applicationName}"
+    stageDir = project.rootDir
+    if (System.properties['push'] == 'true' ){
+        push = true
+    }
+}
+
+def getTAPVersion(){
+    Properties version = new Properties()
+    File pf = new File(rootProject.getRootDir().getAbsolutePath()+'/version.ini')
+    pf.withInputStream {
+       version.load(it)
+    }
+    print version.get('VERSION_BUILD')
+    return String.format("%s.%s.%s",version.get('VERSION_MAJOR'),version.get('VERSION_MINOR'),version.get('VERSION_BUILD'))
+}
+

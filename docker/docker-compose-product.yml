@@ -1,0 +1,22 @@
+version: '3'
+services:
+  opengrok:
+    image: cw1427/opengrok-auth:1.0.0
+    container_name: opengrok
+    network_mode: host
+    ports:
+     - 8080:8080
+    volumes:
+     - ./logs:/usr/local/tomcat/logs
+     - ./src:/opengrok/src
+     - ./data:/opengrok/data
+     - ./etc:/opengrok/etc
+     - /etc/localtime:/etc/localtime:ro
+    environment:
+     - GOSU_USER=0:0
+    restart: always
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 32000
+        hard: 40000

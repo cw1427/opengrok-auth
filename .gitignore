@@ -1,0 +1,15 @@
+.settings
+.project
+.pydevproject
+env
+venv
+*.sublime*
+*.pyc
+.settings
+.pyproject
+.project
+.pydevproject
+*.log
+.vscode
+config_local.py
+*tar.gz

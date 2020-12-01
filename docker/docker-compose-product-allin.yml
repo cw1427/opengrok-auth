@@ -1,0 +1,51 @@
+version: '3'
+services:
+  sse:
+    image: cw1427/opengrok-auth:1.0.0
+    container_name: sse
+    network_mode: host
+    depends_on:
+     - sseauthapp
+    ports:
+     - 8080:8080
+    volumes:
+     - ./webapps:/usr/local/tomcat/webapps
+     - ./logs:/usr/local/tomcat/logs
+     - ./src:/opengrok/src
+     - ./data:/opengrok/data
+     - ./etc:/opengrok/etc
+     - /etc/localtime:/etc/localtime:ro
+     - /etc/timezone:/etc/timezone:ro
+    environment:
+     - GOSU_USER=0:0
+    restart: always
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 32000
+        hard: 40000
+        
+  sseauthapp:
+    image:  cw1427/opengrok-authapp:1.1.0
+    container_name: sseauthapp
+    network_mode: host
+    ports:
+     - 8082:8082
+    volumes:
+     - ./logs:/authapp/logs
+     - ./flask_session:/authapp/flask_session
+     - ./app.db:/authapp/app.db
+     - /etc/localtime:/etc/localtime:ro
+     - /etc/timezone:/etc/timezone:ro
+    environment:
+     - CONFIG_ENV=config_product.py
+     - AUTH_LDAP_SERVER="ldap://your.company.com:389/"
+     - AUTH_LDAP_SEARCH="ou=people,ou=intranet,dc=****,dc=com"
+     - AUTH_LDAP_UID_FIELD=GUID
+    restart: always
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 32000
+        hard: 40000
+       

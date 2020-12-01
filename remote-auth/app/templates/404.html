@@ -1,0 +1,34 @@
+{% extends "appbuilder/base.html" %}
+
+{% block content %}
+<h2><center>{{_('Page not found')}}<center></h2><br/>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Click below names list go to application</div>
+    <table class="table">
+    <thead>
+    <tr>
+    <th width="10%"></th>
+    <th width="30%">name</th>
+    <th>description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="">
+    <td>1</td>
+    <td><a href="/source">source</a></td>
+    <td></td>
+    </tr>
+    <tr class="">
+    <td>2</td>
+    <td><a href="/aosp">aosp</a></td>
+    <td></td>
+    </tr>
+    </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+
+

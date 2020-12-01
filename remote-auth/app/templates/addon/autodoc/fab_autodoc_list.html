@@ -1,0 +1,184 @@
+{% extends "appbuilder/base.html" %}
+
+{% block content %}
+
+        <h1>
+            {% if title is defined -%}
+                {{title}}
+            {% else -%}
+                BSM API Documentation
+            {% endif -%}
+        </h1>
+        
+        <div class="row">
+                <!-- /.col-lg-4 -->
+                <div class="col-lg-12">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            Authentication Type
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th width="20%"></th>
+                                        <th width="10%">
+                                            Support
+                                        </th>
+                                        <th>
+                                            Description
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Basic Authentication in Head</th>
+                                        <td>YES</td>
+                                        <td>
+                                            <ul>
+                                                <li>use curl/wget command paramater to set the basic authentication by -u [username]:[password]</li>
+                                                <li>setup a http request head key: Authorization with the basic authen value</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Basic Authentication in Url Get</th>
+                                        <td>YES</td>
+                                        <td>
+                                             <ul>
+                                                <li>add a http get request args with "api_key" and the basic authentication. e.g.  http://localhost/[REST API]?api_key=[username]:[password]</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>API Key in Head</th>
+                                        <td>YES</td>
+                                        <td>
+                                            <ul>
+                                                <li>add an API key authentication in the request head.</li>
+                                                <li>Key name=X-Moto-Bsm-Api</li>
+                                                <li>Key value=[The account's API Key]</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                             </table>
+                        </div>
+                    </div>
+                </div>
+         </div>
+        <p>
+            <a type="button" class="btn btn-default" href="{{url_for('DocumentsView.list')}}">All Group</a>
+        </p>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Group: {{group}}</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        {% for doc in autodoc %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                           <a href="#endpoint_{{loop.index}}" data-parent="#accordion" data-toggle="collapse" style="">
+                                  <span class="endpoint">Endpoint: {{doc.rule|escape}}</span>
+                           </a>
+                        </div>
+                        <!-- .panel-heading -->
+                        <div class="panel-body panel-collapse collapse" id="endpoint_{{loop.index}}">
+                            <div class="panel-group" id="group_{{loop.index}}">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#desc_{{loop.index}}">Request Description</a>
+                                        </h4>
+                                    </div>
+                                    <div id="desc_{{loop.index}}" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                         {% if doc.docstring -%}
+                                             {% set docstring_json=doc.docstring | trim |json_load -%}
+                                             <ul class="nav nav-tabs" id="myTab">
+                                                            <li class="active">
+                                                                <a data-toggle="tab" href="#inner_desc_{{loop.index}}">Description</a>
+                                                            </li>
+        
+                                                            <li>
+                                                                <a data-toggle="tab" href="#inner_mt_{{loop.index}}">Media Type</a>
+                                                            </li>
+        
+                                                            <li>
+                                                                <a data-toggle="tab" href="#inner_sample_data_{{loop.index}}">Sample data</a>
+                                                            </li>
+                                              </ul>
+                                            <div class="tab-content">
+                                                <div id="inner_desc_{{loop.index}}" class="tab-pane in active">
+                                                    <p> {{ docstring_json['desc'] |safe }}</p>
+                                                </div>
+
+                                                <div id="inner_mt_{{loop.index}}" class="tab-pane">
+                                                    <p> {{ docstring_json['mediaType'] |safe }}</p>
+                                                </div>
+
+                                                <div id="inner_sample_data_{{loop.index}}" class="tab-pane">
+                                                    <p>  {% if docstring_json['data'] -%}
+                                                            {{ docstring_json['data'] |tojson|safe }}
+                                                         {% endif -%}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        {% endif -%}
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#group_{{loop.index}}" href="#method_{{loop.index}}">Request Methods</a>
+                                        </h4>
+                                    </div>
+                                    <div id="method_{{loop.index}}" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            {% for method in doc.methods -%}
+                                               <ul>
+                                                <li>{{method}}</li>
+                                               </ul>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#args_{{loop.index}}">Request Args</a>
+                                        </h4>
+                                    </div>
+                                    <div id="args_{{loop.index}}" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            {% for arg in doc.args -%}
+                                               <li>
+                                                    <span class="argument">{{arg}}</span>
+                                                    <span class="default">{{doc.defaults[arg]}}</span>
+                                               </li>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            
+                            </div>
+                        </div>
+                        <!-- .panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+        {% endfor %}
+        </div>
+{% endblock %}
+
+
