@@ -10,6 +10,9 @@ Opengrok-auth
 ==========
 > Opengrok-auth use Flask app as the inner authentication/authorization app to do the opengrok auth.
 
+## Concept and request flow map
+![Req flow](./docs/img/req.jpg)
+
 
 > [Guide doc](https://cw1427.github.io/opengrok-auth/)
 

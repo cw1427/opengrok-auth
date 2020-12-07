@@ -13,3 +13,4 @@ venv
 .vscode
 config_local.py
 *tar.gz
+*.db
